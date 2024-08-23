@@ -1,0 +1,9 @@
+{
+    "name": "heroku-k6",
+    "description": "k6.io installed on Heroku using Docker",
+    "repository": "https://github.com/abernicchia-heroku/heroku-k6",
+    "keywords": ["k6", "docker", "heroku"],
+    "stack": "container",
+    "website": "https://k6.io"
+}
+  
