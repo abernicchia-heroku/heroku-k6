@@ -26,5 +26,5 @@ export function teardown() {
 export default function () {
   let results = sql.query(db, 'SELECT my_ext_id__c FROM salesforce.account TABLESAMPLE SYSTEM_ROWS(1) LIMIT 1;');
   //console.log(`random my_ext_id__c: ${results[0].my_ext_id__c}`);
-  db.exec("UPDATE myschema.account_view SET name=CONCAT('updated via k6',$1) WHERE my_ext_id__c= $1;", results[0].my_ext_id__c);
+  db.exec("UPDATE myschema.account_view SET name=CONCAT('updated via k6 ',$1) WHERE my_ext_id__c= $1;", results[0].my_ext_id__c);
 }

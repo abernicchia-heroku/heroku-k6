@@ -36,5 +36,5 @@ export function teardown() {
 export default function () {
   let results = sql.query(db, "SELECT nextval('myschema.pgb_account_view_id_seq');");
   console.log(`sequence nextval: ${results[0].nextval}`);
-  db.exec("insert into myschema.account_view(name, my_ext_id__c, sfid) VALUES (CONCAT('inserted via k6', $1::text), CONCAT('myID', $1::text), LPAD($1::text, 18, '0'));", results[0].nextval);
+  db.exec("insert into myschema.account_view(name, my_ext_id__c, sfid) VALUES (CONCAT('inserted via k6 ', $1::text), CONCAT('myID', $1::text), LPAD($1::text, 18, '0'));", results[0].nextval);
 }
