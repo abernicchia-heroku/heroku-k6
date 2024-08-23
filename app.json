@@ -4,6 +4,18 @@
     "repository": "https://github.com/abernicchia-heroku/heroku-k6",
     "keywords": ["k6", "docker", "heroku"],
     "stack": "container",
-    "website": "https://k6.io"
+    "website": "https://k6.io",    
+    "env": {
+        "RECONCILE_BATCHSIZE": {
+            "required": true,
+            "description": "Reconcile batch size - number of records batched together before commit",
+            "value": "2"
+        },
+        "RECONCILE_STOPAT": {
+            "required": true,
+            "description": "Reconcile stop at - exit after stopat number of records processed",
+            "value": "6"
+        }
+    }
 }
   
