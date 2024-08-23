@@ -4,12 +4,6 @@
     "repository": "https://github.com/abernicchia-heroku/heroku-k6",
     "keywords": ["k6", "docker", "heroku"],
     "stack": "container",
-    "website": "https://k6.io",
-    "formation": {
-        "k6console": {
-            "quantity": 1,
-            "size": "standard-1x"
-        }
-    }
+    "website": "https://k6.io"
 }
   
