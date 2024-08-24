@@ -6,8 +6,8 @@ export const options = {
     scenarios: {
       constant_request_rate: {
         executor: 'constant-arrival-rate',
-        rate: 2,
-        timeUnit: '1s', // 20 iterations per second (rate=20, timeUnit=1s)
+        rate: 1,
+        timeUnit: '5m', // 20 iterations per second (rate=20, timeUnit=1s)
         duration: '20m', // total test duration
         preAllocatedVUs: 10, // how large the initial pool of VUs would be
         maxVUs: 200, // if the preAllocatedVUs are not enough, we can initialize more
@@ -24,6 +24,9 @@ export function teardown() {
 }
 
 export default function () {
-  console.log(`env vars - RECONCILE_BATCHSIZE: ${__ENV.RECONCILE_BATCHSIZE} RECONCILE_STOPAT: ${__ENV.RECONCILE_STOPAT}`);
-  db.exec("CALL myschema.reconcile_all_account_records_proc($1,$2);", `${__ENV.RECONCILE_BATCHSIZE}`, `${__ENV.RECONCILE_STOPAT}`);
+  let results = sql.query(db, "select * from myschema.myaccount WHERE NOT EXISTS (SELECT 1 FROM salesforce.account WHERE myaccount.my_ext_id__c = account.my_ext_id__c) LIMIT 1;");
+  if (results.length > 0) {
+    //console.log(`first record from myschema.myaccount that not exists in salesforce.account my_ext_id__c: ${results[0].my_ext_id__c}`);
+    db.exec("insert into salesforce.account(name, my_ext_id__c, sfid) VALUES ('HC simulator sfdc2pg', $1, $2);", results[0].my_ext_id__c, results[0].sfid);
+  }  
 }

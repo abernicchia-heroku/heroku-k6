@@ -6,7 +6,7 @@ export const options = {
     scenarios: {
       constant_request_rate: {
         executor: 'constant-arrival-rate',
-        rate: 2,
+        rate: 15,
         timeUnit: '1s', // 20 iterations per second (rate=20, timeUnit=1s)
         duration: '20m', // total test duration
         preAllocatedVUs: 10, // how large the initial pool of VUs would be
@@ -24,6 +24,9 @@ export function teardown() {
 }
 
 export default function () {
-  console.log(`env vars - RECONCILE_BATCHSIZE: ${__ENV.RECONCILE_BATCHSIZE} RECONCILE_STOPAT: ${__ENV.RECONCILE_STOPAT}`);
-  db.exec("CALL myschema.reconcile_all_account_records_proc($1,$2);", `${__ENV.RECONCILE_BATCHSIZE}`, `${__ENV.RECONCILE_STOPAT}`);
+  let results = sql.query(db, 'SELECT my_ext_id__c FROM myschema.myaccount TABLESAMPLE SYSTEM_ROWS(1) LIMIT 1;');
+  if (results.length > 0) {
+    //console.log(`random my_ext_id__c: ${results[0].my_ext_id__c}`);
+    db.exec("UPDATE myschema.account_view SET name=CONCAT('updated via k6 ',$1) WHERE my_ext_id__c= $1;", results[0].my_ext_id__c);
+  }
 }

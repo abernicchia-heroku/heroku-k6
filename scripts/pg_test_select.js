@@ -8,7 +8,7 @@ export const options = {
         executor: 'constant-arrival-rate',
         rate: 15,
         timeUnit: '1s', // 20 iterations per second (rate=20, timeUnit=1s)
-        duration: '1s', // total test duration
+        duration: '20m', // total test duration
         preAllocatedVUs: 10, // how large the initial pool of VUs would be
         maxVUs: 200, // if the preAllocatedVUs are not enough, we can initialize more
       },
