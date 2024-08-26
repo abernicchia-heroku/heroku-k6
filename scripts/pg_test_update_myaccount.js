@@ -11,14 +11,15 @@ export const options = {
         timeUnit: '1s', // 20 iterations per second (rate=20, timeUnit=1s)
         duration: '20m', // total test duration
         preAllocatedVUs: 10, // how large the initial pool of VUs would be
-        maxVUs: 200, // if the preAllocatedVUs are not enough, we can initialize more
+        maxVUs: 300, // if the preAllocatedVUs are not enough, we can initialize more
       },
     },
   };
 
 // The second argument is a PostgreSQL connection string, e.g.
 // postgres://myuser:mypass@127.0.0.1:5432/postgres?sslmode=require
-const db = sql.open('postgres', `${__ENV.DATABASE_URL}?sslmode=require`);
+// binary_parameters=yes is required for pgbouncer https://stackoverflow.com/a/53225070
+const db = sql.open('postgres', `${__ENV.DATABASE_URL}?sslmode=require&binary_parameters=yes`);
 
 export function teardown() {
   db.close();

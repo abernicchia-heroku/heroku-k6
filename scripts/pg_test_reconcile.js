@@ -18,7 +18,8 @@ export const options = {
 
 // The second argument is a PostgreSQL connection string, e.g.
 // postgres://myuser:mypass@127.0.0.1:5432/postgres?sslmode=require
-const db = sql.open('postgres', `${__ENV.DATABASE_URL}?sslmode=require`);
+// binary_parameters=yes is required for pgbouncer https://stackoverflow.com/a/53225070
+const db = sql.open('postgres', `${__ENV.DATABASE_URL}?sslmode=require&binary_parameters=yes`);
 
 export function teardown() {
   db.close();

@@ -18,10 +18,11 @@ export const options = {
 
 // The second argument is a PostgreSQL connection string, e.g.
 // postgres://myuser:mypass@127.0.0.1:5432/postgres?sslmode=require
-const db = sql.open('postgres', `${__ENV.DATABASE_URL}?sslmode=require`);
+// binary_parameters=yes is required for pgbouncer https://stackoverflow.com/a/53225070
+const db = sql.open('postgres', `${__ENV.DATABASE_URL}?sslmode=require&binary_parameters=yes`);
 
 export function setup() {
-  db.exec(`CREATE EXTENSION IF NOT EXISTS tsm_system_rows;`);
+  //db.exec(`CREATE EXTENSION IF NOT EXISTS tsm_system_rows;`);
 }
 
 export function teardown() {
@@ -32,4 +33,5 @@ export default function () {
   let results = sql.query(db, 'SELECT my_ext_id__c FROM salesforce.account TABLESAMPLE SYSTEM_ROWS(1) LIMIT 1;');
   //console.log(`random my_ext_id__c: ${results[0].my_ext_id__c}`);
   db.exec("DELETE FROM  myschema.account_view WHERE my_ext_id__c= $1;", results[0].my_ext_id__c);
+  //console.log(`record deleted my_ext_id__c: ${results[0].my_ext_id__c}`);
 }
