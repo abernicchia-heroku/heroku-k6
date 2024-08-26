@@ -2,6 +2,7 @@
 
 import sql from 'k6/x/sql';
 
+// duration/iterations cannot be changed via CLI - it seems to be a bug https://github.com/grafana/k6/issues/3742
 export const options = {
     scenarios: {
       constant_request_rate: {
