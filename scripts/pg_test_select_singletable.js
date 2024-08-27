@@ -26,8 +26,5 @@ export function teardown() {
 }
 
 export default function () {
-  let results = sql.query(db, 'SELECT my_ext_id__c FROM salesforce.account TABLESAMPLE SYSTEM_ROWS(1) LIMIT 1;');
-  //console.log(`random my_ext_id__c: ${results[0].my_ext_id__c}`);
-  results = sql.query(db, 'SELECT * FROM myschema.account_view WHERE my_ext_id__c= $1;', results[0].my_ext_id__c);
-  //console.log(`myschema.account_view name: ${results[0].name}`);
+  let results = sql.query(db, 'SELECT my_ext_id__c FROM salesforce.account LIMIT 1;');
 }

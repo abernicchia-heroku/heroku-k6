@@ -5,13 +5,13 @@ import sql from 'k6/x/sql';
 // duration/iterations cannot be changed via CLI - it seems to be a bug https://github.com/grafana/k6/issues/3742
 export const options = {
     scenarios: {
-      constant_request_rate: {
+      constant_rate_update_myaccount: {
         executor: 'constant-arrival-rate',
         rate: 105,
         timeUnit: '1s', // 20 iterations per second (rate=20, timeUnit=1s)
         duration: '20m', // total test duration
         preAllocatedVUs: 10, // how large the initial pool of VUs would be
-        maxVUs: 300, // if the preAllocatedVUs are not enough, we can initialize more
+        maxVUs: 200, // if the preAllocatedVUs are not enough, we can initialize more
       },
     },
   };
